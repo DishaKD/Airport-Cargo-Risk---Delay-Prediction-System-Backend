@@ -64,6 +64,8 @@ Update the following variables:
 
 ### 3. Database Setup
 
+![DB](https://github.com/DishaKD/Airport-Cargo-Risk---Delay-Prediction-System-Backend/blob/cargo-management-service/images/db.png)
+
 Generate Prisma client:
 
 ```bash
@@ -99,6 +101,7 @@ Access the interactive API documentation at:
 ```
 http://localhost:3001/api-docs
 ```
+![Swagger UI](https://github.com/DishaKD/Airport-Cargo-Risk---Delay-Prediction-System-Backend/blob/cargo-management-service/images/swagger_api.png)
 
 The Swagger UI provides an interactive interface to test all API endpoints with detailed request/response schemas.
 
