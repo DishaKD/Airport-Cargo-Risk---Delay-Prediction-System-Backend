@@ -1,0 +1,4 @@
+DATABASE_URL="postgresql://cargo_user:12345678@localhost:5432/cargo_service"
+PORT=3001
+NODE_ENV=development
+SERVICE_NAME=cargo-service
