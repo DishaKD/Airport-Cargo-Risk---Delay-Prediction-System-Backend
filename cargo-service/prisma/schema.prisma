@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CargoStatus {
+  PENDING
+  LOADED
+  IN_TRANSIT
+  DELIVERED
+  DELAYED
+  CANCELLED
+}
+
+enum CargoType {
+  FRAGILE
+  HAZARDOUS
+  PERISHABLE
+  GENERAL
+  OVERSIZED
+}
+
+model Cargo {
+  id             String   @id @default(uuid())
+  trackingNumber String   @unique
+  description    String
+  weight         Float    // in kg
+  dimensions     String   // e.g., "100x50x50"
+  cargoType      CargoType
+  status         CargoStatus @default(PENDING)
+  origin         String
+  destination    String
+  flightId       String?  // Link to flight
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  shipments      Shipment[]
+}
+
+model Shipment {
+  id          String   @id @default(uuid())
+  cargoId     String
+  cargo       Cargo    @relation(fields: [cargoId], references: [id])
+  status      CargoStatus @default(PENDING)
+  loadedAt    DateTime?
+  deliveredAt DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([cargoId])
+}
+
+model FlightAssignment {
+  id          String   @id @default(uuid())
+  cargoId     String   @unique
+  flightId    String
+  assignedAt  DateTime @default(now())
+  unloadedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CargoLocation {
+  id          String   @id @default(uuid())
+  cargoId     String
+  latitude    Float
+  longitude   Float
+  location    String  // Warehouse, Aircraft, Destination, etc.
+  timestamp   DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([cargoId])
+}
