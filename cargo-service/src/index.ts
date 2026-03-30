@@ -2,8 +2,10 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
 
 import cargoRoutes from './routes/cargoRoutes';
+import { swaggerSpec } from './config/swagger';
 import { requestLogger } from './middlewares/requestLogger';
 import { errorHandler, notFoundHandler } from './middlewares/errorMiddleware';
 
@@ -21,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Logging
 app.use(requestLogger);
+
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

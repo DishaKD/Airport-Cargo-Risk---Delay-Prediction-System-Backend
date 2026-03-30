@@ -1,5 +1,6 @@
 import prisma from '../config/db';
 import { CreateCargoDTO, UpdateCargoDTO, CargoResponse } from '../types';
+import { CargoStatus } from '@prisma/client';
 
 export class CargoService {
   /**
@@ -145,7 +146,7 @@ export class CargoService {
   /**
    * Update cargo status
    */
-  async updateCargoStatus(id: string, status: string): Promise<CargoResponse> {
+  async updateCargoStatus(id: string, status: CargoStatus): Promise<CargoResponse> {
     const cargo = await prisma.cargo.update({
       where: { id },
       data: { status },
@@ -170,7 +171,7 @@ export class CargoService {
   /**
    * Get cargo by status
    */
-  async getCargoByStatus(status: string): Promise<CargoResponse[]> {
+  async getCargoByStatus(status: CargoStatus): Promise<CargoResponse[]> {
     const cargoList = await prisma.cargo.findMany({
       where: { status },
       orderBy: {

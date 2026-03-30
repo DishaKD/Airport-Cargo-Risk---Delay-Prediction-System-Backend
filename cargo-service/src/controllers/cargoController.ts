@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { CargoService } from '../services/cargoService';
 import { CreateCargoDTO, UpdateCargoDTO, ApiResponse, CargoResponse } from '../types';
+import { CargoStatus } from '@prisma/client';
 
 export class CargoController {
   private cargoService: CargoService;
@@ -158,7 +159,18 @@ export class CargoController {
     try {
       const { id } = req.params;
       const { status } = req.body;
-      const cargo = await this.cargoService.updateCargoStatus(id, status);
+
+      // Validate status is valid CargoStatus enum
+      const validStatuses = Object.values(CargoStatus);
+      if (!validStatuses.includes(status)) {
+        res.status(400).json({
+          success: false,
+          message: `Invalid status. Must be one of: ${validStatuses.join(', ')}`,
+        });
+        return;
+      }
+
+      const cargo = await this.cargoService.updateCargoStatus(id, status as CargoStatus);
       
       const response: ApiResponse<CargoResponse> = {
         success: true,
@@ -183,7 +195,18 @@ export class CargoController {
   getCargoByStatus = async (req: Request, res: Response): Promise<void> => {
     try {
       const { status } = req.params;
-      const cargo = await this.cargoService.getCargoByStatus(status);
+
+      // Validate status is valid CargoStatus enum
+      const validStatuses = Object.values(CargoStatus);
+      if (!validStatuses.includes(status as CargoStatus)) {
+        res.status(400).json({
+          success: false,
+          message: `Invalid status. Must be one of: ${validStatuses.join(', ')}`,
+        });
+        return;
+      }
+
+      const cargo = await this.cargoService.getCargoByStatus(status as CargoStatus);
       
       const response: ApiResponse<CargoResponse[]> = {
         success: true,

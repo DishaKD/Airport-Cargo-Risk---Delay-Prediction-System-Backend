@@ -91,6 +91,17 @@ npm run build
 npm run start
 ```
 
+## API Documentation
+
+### Swagger UI
+
+Access the interactive API documentation at:
+```
+http://localhost:3001/api-docs
+```
+
+The Swagger UI provides an interactive interface to test all API endpoints with detailed request/response schemas.
+
 ## API Endpoints
 
 ### Cargo Operations
