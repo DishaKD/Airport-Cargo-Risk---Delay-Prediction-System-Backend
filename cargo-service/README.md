@@ -250,6 +250,6 @@ The Cargo Management Service is designed to work with:
 
 ---
 
-**Author**: Team Planning<br>
+**Author**: Heshan.k<br>
 **Service Port**: 3001<br>
 **Database**: PostgreSQL
