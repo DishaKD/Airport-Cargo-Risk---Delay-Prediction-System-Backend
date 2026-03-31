@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum FlightStatus {
+  SCHEDULED
+  BOARDING
+  DEPARTED
+  IN_TRANSIT
+  DELAYED
+  LANDED
+  CANCELLED
+}
+
+enum DelayReason {
+  MECHANICAL
+  WEATHER
+  CREW
+  CARGO_DELAY
+  CUSTOMS
+  MAINTENANCE
+  OTHER
+}
+
+model Flight {
+  id                String   @id @default(uuid())
+  flightNumber      String   @unique
+  airlineCode       String
+  aircraftType      String
+  departureAirport  String
+  arrivalAirport    String
+  status            FlightStatus @default(SCHEDULED)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  schedules         Schedule[]
+  delays            Delay[]
+}
+
+model Schedule {
+  id                String   @id @default(uuid())
+  flightId          String
+  flight            Flight   @relation(fields: [flightId], references: [id], onDelete: Cascade)
+  scheduledDeparture DateTime
+  scheduledArrival  DateTime
+  estimatedDeparture DateTime?
+  estimatedArrival  DateTime?
+  actualDeparture   DateTime?
+  actualArrival     DateTime?
+  gate              String?
+  terminal          String?
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([flightId])
+}
+
+model Delay {
+  id                String   @id @default(uuid())
+  flightId          String
+  flight            Flight   @relation(fields: [flightId], references: [id], onDelete: Cascade)
+  reason            DelayReason
+  estimatedDelay    Int       // in minutes
+  actualDelay       Int?      // in minutes
+  description       String?
+  reportedAt        DateTime  @default(now())
+  resolvedAt        DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([flightId])
+}
