@@ -6,7 +6,9 @@ export const validationMiddleware = (schema: Joi.ObjectSchema) => {
     const { error, value } = schema.validate(req.body, { abortEarly: false });
 
     if (error) {
-      const messages = error.details.map((detail) => detail.message).join(", ");
+      const messages = error.details
+        .map((detail: Joi.ValidationErrorItem) => detail.message)
+        .join(", ");
       res.status(400).json({
         success: false,
         message: "Validation error",
