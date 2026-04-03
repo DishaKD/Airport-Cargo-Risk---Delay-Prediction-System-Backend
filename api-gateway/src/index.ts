@@ -3,6 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 import gatewayRoutes from './routes/gateway';
 import apiRoutes from './routes/api';
@@ -14,6 +16,27 @@ dotenv.config();
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
 
+// Swagger Configuration
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Airport Cargo Risk-Delay Prediction System API Gateway',
+      version: '1.0.0',
+      description: 'API Gateway documenting the connected microservices.',
+    },
+    servers: [
+      {
+        url: `http://localhost:${PORT}`,
+        description: 'Local API Gateway Server',
+      },
+    ],
+  },
+  // Reads JSDoc comments from route files
+  apis: ['./src/routes/*.ts'],
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
 // Middleware
 app.use(helmet());
 app.use(cors());
@@ -24,6 +47,9 @@ app.use(express.urlencoded({ extended: true }));
 // Custom logging
 app.use(requestLogger);
 
+// Swagger Documentation endpoint
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Welcome endpoint
 app.get('/', (req, res) => {
   res.json({
@@ -33,6 +59,7 @@ app.get('/', (req, res) => {
     documentation: '/gateway/info',
     health: '/gateway/health',
     status: '/gateway/status',
+    swagger: '/api-docs',
   });
 });
 
