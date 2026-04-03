@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum CargoStatus {
+  PENDING
+  PROCESSING
+  IN_TRANSIT
+  ARRIVED
+  DELAYED
+  DELIVERED
+}
+
+model CargoTracking {
+  id              String            @id @default(uuid())
+  cargoId         String            @unique
+  trackingNumber  String            @unique
+  currentLocation String
+  status          CargoStatus       @default(PENDING)
+  lastUpdated     DateTime          @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  history         TrackingHistory[]
+}
+
+model TrackingHistory {
+  id             String         @id @default(uuid())
+  cargoTracking  CargoTracking  @relation(fields: [cargoId], references: [cargoId], onDelete: Cascade)
+  cargoId        String
+  location       String
+  status         CargoStatus
+  timestamp      DateTime       @default(now())
+}
