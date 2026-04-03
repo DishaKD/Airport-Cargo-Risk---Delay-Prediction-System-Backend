@@ -22,17 +22,17 @@ export const services: Record<string, ServiceConfig> = {
   },
   flight: {
     name: "Flight Schedule Service",
-    url: process.env.FLIGHT_SERVICE_URL || "http://localhost:3002",
+    url: process.env.FLIGHT_SERVICE_URL || "http://localhost:3003",
     description: "Handles flight information and scheduling",
   },
   tracking: {
     name: "Cargo Tracking & Location Service",
-    url: process.env.TRACKING_SERVICE_URL || "http://localhost:3003",
+    url: process.env.TRACKING_SERVICE_URL || "http://localhost:3004",
     description: "Tracks real-time cargo movement",
   },
   customs: {
     name: "Customs & Clearance Service",
-    url: process.env.CUSTOMS_SERVICE_URL || "http://localhost:3004",
+    url: process.env.CUSTOMS_SERVICE_URL || "http://localhost:3005",
     description: "Manages customs checks and clearance",
   },
 };

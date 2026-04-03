@@ -14,6 +14,10 @@ const router: ExpressRouter = Router();
  *     description: Cargo Management Endpoints
  *   - name: Flight
  *     description: Flight Schedule Endpoints
+ *   - name: Schedules
+ *     description: Flight Schedule Management Endpoints
+ *   - name: Delays
+ *     description: Flight Delay Reporting Endpoints
  *   - name: Tracking
  *     description: Cargo Tracking Endpoints
  *   - name: Customs
@@ -276,12 +280,30 @@ router.use(
  *     responses:
  *       200:
  *         description: Success
+ * /api/flight/route/{departureAirport}/{arrivalAirport}:
+ *   get:
+ *     summary: Get flights by route
+ *     tags: [Flight]
+ *     parameters:
+ *       - in: path
+ *         name: departureAirport
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: arrivalAirport
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
  */
 router.use(
   "/flight",
   proxy(getServiceUrl("flight"), {
     proxyReqPathResolver: (req: Request) => {
-      return "/api/flight" + (req.url === "/" ? "" : req.url);
+      return "/api/flights" + (req.url === "/" ? "" : req.url);
     },
     proxyErrorHandler: (err: Error, res: Response) => {
       console.error("Flight Service Error:", err.message);
@@ -438,7 +460,187 @@ router.use(
  *     responses:
  *       200:
  *         description: Success
+
+
+/**
+ * @swagger
+ * /api/schedule/:
+ *   post:
+ *     summary: Create new schedule
+ *     tags: [Schedules]
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             additionalProperties: true
+ *     responses:
+ *       201:
+ *         description: Created
+ *   get:
+ *     summary: Get all schedules
+ *     tags: [Schedules]
+ *     responses:
+ *       200:
+ *         description: Success
+ * /api/schedule/{id}:
+ *   get:
+ *     summary: Get schedule by ID
+ *     tags: [Schedules]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *   put:
+ *     summary: Update schedule
+ *     tags: [Schedules]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *   delete:
+ *     summary: Delete schedule
+ *     tags: [Schedules]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ * /api/schedule/flight/{flightId}:
+ *   get:
+ *     summary: Get schedules by flight ID
+ *     tags: [Schedules]
+ *     parameters:
+ *       - in: path
+ *         name: flightId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
  */
+router.use(
+  "/schedule",
+  proxy(getServiceUrl("flight"), {
+    proxyReqPathResolver: (req: Request) => {
+      return "/api/schedules" + (req.url === "/" ? "" : req.url);
+    },
+    proxyErrorHandler: (err: Error, res: Response) => {
+      console.error("Schedule Proxy Error:", err.message);
+      res.status(503).json({ success: false, message: "Flight Schedule Service unavailable", error: err.message });
+    },
+  }),
+);
+
+/**
+ * @swagger
+ * /api/delay/:
+ *   post:
+ *     summary: Report new delay
+ *     tags: [Delays]
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             additionalProperties: true
+ *     responses:
+ *       201:
+ *         description: Created
+ *   get:
+ *     summary: Get all delays
+ *     tags: [Delays]
+ *     responses:
+ *       200:
+ *         description: Success
+ * /api/delay/active:
+ *   get:
+ *     summary: Get active delays
+ *     tags: [Delays]
+ *     responses:
+ *       200:
+ *         description: Success
+ * /api/delay/{id}:
+ *   get:
+ *     summary: Get delay by ID
+ *     tags: [Delays]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *   put:
+ *     summary: Update delay info
+ *     tags: [Delays]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *   delete:
+ *     summary: Delete delay info
+ *     tags: [Delays]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ * /api/delay/flight/{flightId}:
+ *   get:
+ *     summary: Get delays by flight ID
+ *     tags: [Delays]
+ *     parameters:
+ *       - in: path
+ *         name: flightId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+router.use(
+  "/delay",
+  proxy(getServiceUrl("flight"), {
+    proxyReqPathResolver: (req: Request) => {
+      return "/api/delays" + (req.url === "/" ? "" : req.url);
+    },
+    proxyErrorHandler: (err: Error, res: Response) => {
+      console.error("Delay Proxy Error:", err.message);
+      res.status(503).json({ success: false, message: "Flight Schedule Service unavailable", error: err.message });
+    },
+  }),
+);
+
 router.use(
   "/tracking",
   proxy(getServiceUrl("tracking"), {
