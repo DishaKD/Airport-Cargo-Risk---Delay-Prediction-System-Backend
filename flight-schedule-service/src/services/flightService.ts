@@ -1,4 +1,4 @@
-import prisma from "../config/db";
+import { prisma } from "../config/db";
 import { CreateFlightDTO, UpdateFlightDTO, FlightResponse } from "../types";
 
 /**
@@ -47,7 +47,7 @@ export class FlightService {
       },
     });
 
-    return flights.map((flight) => ({
+    return flights.map((flight: any) => ({
       id: flight.id,
       flightNumber: flight.flightNumber,
       airlineCode: flight.airlineCode,
@@ -139,7 +139,7 @@ export class FlightService {
       },
     });
 
-    return flights.map((flight) => ({
+    return flights.map((flight: any) => ({
       id: flight.id,
       flightNumber: flight.flightNumber,
       airlineCode: flight.airlineCode,
@@ -171,7 +171,7 @@ export class FlightService {
       },
     });
 
-    return flights.map((flight) => ({
+    return flights.map((flight: any) => ({
       id: flight.id,
       flightNumber: flight.flightNumber,
       airlineCode: flight.airlineCode,

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ScheduleController } from "../controllers/scheduleController";
 
-const router = Router();
+const router: Router = Router();
 const scheduleController = new ScheduleController();
 
 /**
