@@ -11,6 +11,7 @@ import {
     getTrackingInfo,
     getMovementHistory,
     detectDelays,
+    getTodos,
 } from "../controllers/tracking.controller";
 
 const router = Router();
@@ -257,5 +258,17 @@ router.patch("/:cargoId/deliver", markAsDelivered);
  *         description: Record not found
  */
 router.patch("/:cargoId/status", updateStatusManually);
+
+/**
+ * @swagger
+ * /tracking/todos:
+ *   get:
+ *     summary: Get Sample Todos from Supabase
+ *     tags: [Tracking]
+ *     responses:
+ *       200:
+ *         description: List of todos from Supabase
+ */
+router.get("/todos/sample", getTodos);
 
 export default router;

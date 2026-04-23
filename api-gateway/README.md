@@ -21,8 +21,8 @@ Clients
 API Gateway (Port 3000)
    ├→ /api/cargo → Cargo Service (3001)
    ├→ /api/flight → Flight Service (3002)
-   ├→ /api/tracking → Tracking Service (3003)
-   └→ /api/customs → Customs Service (3004)
+   ├→ /api/tracking → Tracking Service (3004)
+   └→ /api/customs → Customs Service (3005)
 ```
 
 ## Setup Instructions
@@ -51,8 +51,8 @@ NODE_ENV=development
 
 CARGO_SERVICE_URL=http://localhost:3001
 FLIGHT_SERVICE_URL=http://localhost:3002
-TRACKING_SERVICE_URL=http://localhost:3003
-CUSTOMS_SERVICE_URL=http://localhost:3004
+TRACKING_SERVICE_URL=http://localhost:3004
+CUSTOMS_SERVICE_URL=http://localhost:3005
 ```
 
 ### 3. Start the Gateway

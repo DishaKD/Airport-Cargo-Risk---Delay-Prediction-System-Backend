@@ -49,7 +49,7 @@ npm start
 
 ## API Documentation
 The API is fully documented using Swagger. Once the server is running, you can access the documentation at:
-- `http://localhost:3003/api-docs`
+- `http://localhost:3004/api-docs`
 
 ## API Gateway Compatibility
 All tracking routes are prefixed properly and Swagger UI supports both direct and `/api` prefixed URLs, ensuring full compatibility with the main API Gateway.

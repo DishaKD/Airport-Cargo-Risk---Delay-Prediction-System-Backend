@@ -6,8 +6,8 @@ NODE_ENV=development
 # Service URLs
 CARGO_SERVICE_URL=http://localhost:3001
 #FLIGHT_SERVICE_URL=http://localhost:3002
-#TRACKING_SERVICE_URL=http://localhost:3003
-#CUSTOMS_SERVICE_URL=http://localhost:3004
+#TRACKING_SERVICE_URL=http://localhost:3004
+#CUSTOMS_SERVICE_URL=http://localhost:3005
 
 # Gateway Configuration
 GATEWAY_NAME=Airport-Cargo-System-Gateway

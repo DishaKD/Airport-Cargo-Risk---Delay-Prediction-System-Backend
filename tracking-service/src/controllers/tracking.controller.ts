@@ -156,3 +156,12 @@ export const detectDelays = async (req: Request, res: Response, next: NextFuncti
         next(err);
     }
 };
+
+export const getTodos = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const todos = await trackingService.getTodos();
+        res.status(200).json({ success: true, data: todos });
+    } catch (err) {
+        next(err);
+    }
+};

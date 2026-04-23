@@ -8,7 +8,7 @@ import trackingRoutes from "./routes/tracking.routes";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3004;
 
 app.use(express.json());
 

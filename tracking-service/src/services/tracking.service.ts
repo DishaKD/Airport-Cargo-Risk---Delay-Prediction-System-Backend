@@ -1,6 +1,7 @@
 import { prisma } from "../config/db";
 import { generateTrackingNumber } from "../utils/trackingGenerator";
 import { CargoStatus } from "@prisma/client";
+import { supabase } from "../config/supabase";
 
 export class TrackingService {
 
@@ -207,6 +208,14 @@ export class TrackingService {
         return await prisma.cargoTracking.findMany({
             where: { cargoId: { in: cargoIds } },
         });
+    }
+
+    // ─── 12. Supabase Integration (Sample) ──────────────────────────────────────
+
+    async getTodos() {
+        const { data, error } = await supabase.from('todos').select();
+        if (error) throw error;
+        return data;
     }
 }
 
