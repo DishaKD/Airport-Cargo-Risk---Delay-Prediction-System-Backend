@@ -80,42 +80,6 @@ router.post('/', CustomsController.createClearance);
 
 /**
  * @openapi
- * /api/customs/{id}:
- *   put:
- *     summary: Update a clearance record
- *     tags: [Customs]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *           format: uuid
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               clearanceStatus:
- *                 type: string
- *               riskLevel:
- *                 type: string
- *               notes:
- *                 type: string
- *               delayReason:
- *                 type: string
- *     responses:
- *       200:
- *         description: Success
- *       404:
- *         description: Not found
- */
-router.put('/:id', CustomsController.updateClearance);
-
-/**
- * @openapi
  * /api/customs/{id}/inspect:
  *   put:
  *     summary: Simulate an inspection
@@ -151,6 +115,42 @@ router.put('/:id', CustomsController.updateClearance);
  *         description: Not found
  */
 router.put('/:id/inspect', CustomsController.simulateInspection);
+
+/**
+ * @openapi
+ * /api/customs/{id}:
+ *   put:
+ *     summary: Update a clearance record
+ *     tags: [Customs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               clearanceStatus:
+ *                 type: string
+ *               riskLevel:
+ *                 type: string
+ *               notes:
+ *                 type: string
+ *               delayReason:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *       404:
+ *         description: Not found
+ */
+router.put('/:id', CustomsController.updateClearance);
 
 /**
  * @openapi
