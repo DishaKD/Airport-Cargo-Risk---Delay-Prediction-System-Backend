@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 // Swagger Documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Health check endpoint
 app.get("/health", (req, res) => {
@@ -49,14 +49,14 @@ app.use(errorHandler);
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Flight Schedule Service running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`📖 API Documentation: http://localhost:${PORT}/api-docs`);
+  console.log(`Flight Schedule Service running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`API Documentation: http://localhost:${PORT}/swagger`);
   console.log(
-    `✈️  Purpose: Manages flight schedules, cargo assignments, and flight status updates`,
+    `Purpose: Manages flight schedules, cargo assignments, and flight status updates`,
   );
   console.log(
-    `📦 Key Features: Flight scheduling, cargo routing, delay tracking for cargo transport`,
+    `Key Features: Flight scheduling, cargo routing, delay tracking for cargo transport`,
   );
 });
 

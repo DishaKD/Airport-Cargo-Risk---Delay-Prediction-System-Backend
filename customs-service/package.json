@@ -10,8 +10,6 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node prisma/seed.ts",
-    "db:seed": "npm run prisma:generate && npm run prisma:seed",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { DelayController } from "../controllers/delayController";
 
-const router = Router();
+const router: Router = Router();
 const delayController = new DelayController();
 
 /**

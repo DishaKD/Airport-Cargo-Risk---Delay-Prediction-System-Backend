@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { FlightController } from "../controllers/flightController";
 
-const router = Router();
+const router: Router = Router();
 const flightController = new FlightController();
 
 /**

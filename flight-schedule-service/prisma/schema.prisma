@@ -1,12 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["driverAdapters", "multiSchema"]
 }
-
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  schemas  = ["flight_schedule"]
 }
 
 enum FlightStatus {
@@ -17,6 +17,8 @@ enum FlightStatus {
   DELAYED
   LANDED
   CANCELLED
+
+  @@schema("flight_schedule")
 }
 
 enum DelayReason {
@@ -27,55 +29,61 @@ enum DelayReason {
   CUSTOMS
   MAINTENANCE
   OTHER
+
+  @@schema("flight_schedule")
 }
 
 model Flight {
-  id                String   @id @default(uuid())
-  flightNumber      String   @unique
-  airlineCode       String
-  aircraftType      String
-  departureAirport  String
-  arrivalAirport    String
-  status            FlightStatus @default(SCHEDULED)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id               String       @id @default(uuid())
+  flightNumber     String       @unique
+  airlineCode      String
+  aircraftType     String
+  departureAirport String
+  arrivalAirport   String
+  status           FlightStatus @default(SCHEDULED)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
   // Relations
-  schedules         Schedule[]
-  delays            Delay[]
+  schedules Schedule[]
+  delays    Delay[]
+
+  @@schema("flight_schedule")
 }
 
 model Schedule {
-  id                String   @id @default(uuid())
-  flightId          String
-  flight            Flight   @relation(fields: [flightId], references: [id], onDelete: Cascade)
+  id                 String    @id @default(uuid())
+  flightId           String
+  flight             Flight    @relation(fields: [flightId], references: [id], onDelete: Cascade)
   scheduledDeparture DateTime
-  scheduledArrival  DateTime
+  scheduledArrival   DateTime
   estimatedDeparture DateTime?
-  estimatedArrival  DateTime?
-  actualDeparture   DateTime?
-  actualArrival     DateTime?
-  gate              String?
-  terminal          String?
-  notes             String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  estimatedArrival   DateTime?
+  actualDeparture    DateTime?
+  actualArrival      DateTime?
+  gate               String?
+  terminal           String?
+  notes              String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   @@index([flightId])
+  @@schema("flight_schedule")
 }
 
 model Delay {
-  id                String   @id @default(uuid())
-  flightId          String
-  flight            Flight   @relation(fields: [flightId], references: [id], onDelete: Cascade)
-  reason            DelayReason
-  estimatedDelay    Int       // in minutes
-  actualDelay       Int?      // in minutes
-  description       String?
-  reportedAt        DateTime  @default(now())
-  resolvedAt        DateTime?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id             String      @id @default(uuid())
+  flightId       String
+  flight         Flight      @relation(fields: [flightId], references: [id], onDelete: Cascade)
+  reason         DelayReason
+  estimatedDelay Int // in minutes
+  actualDelay    Int? // in minutes
+  description    String?
+  reportedAt     DateTime    @default(now())
+  resolvedAt     DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
   @@index([flightId])
+  @@schema("flight_schedule")
 }
